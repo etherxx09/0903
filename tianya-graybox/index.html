@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f0f0ee">
+<title>《天涯若比邻》｜交互灰盒 v0.2</title>
+<style>
+:root{--ink:#262626;--bg:#efefed;--paper:#fafaf8;--line:#babbb7;--soft:#e9e9e6;--mid:#6b6b68;--dark:#353535}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible{outline:3px solid #777;outline-offset:3px}button:disabled{cursor:not-allowed}.app{max-width:1100px;min-height:100dvh;margin:auto;display:flex;flex-direction:column}.top{display:flex;justify-content:space-between;gap:14px;align-items:center;border-bottom:1px solid var(--line);padding:17px 20px;background:var(--paper)}.title{font-weight:760;font-size:19px;letter-spacing:.01em}.version{font-size:12px;color:#62625f}.topright{display:flex;align-items:center;gap:10px}.counter{font-size:12px;color:#555}.plain{padding:7px 11px;background:#fff;border:1px solid var(--line);border-radius:6px;color:#333}.main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 272px;gap:14px;padding:14px}.stage{min-height:550px;border:1px solid var(--line);border-radius:12px;background:var(--paper);display:flex;flex-direction:column;overflow:hidden}.stagebar{padding:13px 16px;border-bottom:1px solid #dededc;display:flex;justify-content:space-between;align-items:center;gap:10px}.eyebrow{font-weight:650;font-size:12px;letter-spacing:.065em;color:#555}.note{font-size:12px;color:#686866;text-align:right}.table-area{padding:19px 16px 12px;flex:1;display:flex;align-items:center;justify-content:center}.tabletop{width:100%;max-width:590px;aspect-ratio:1.75;border:2px solid #9b9b98;border-radius:45%/38%;background:repeating-linear-gradient(0deg,#eaeae8,#eaeae8 34px,#e3e3e1 35px);position:relative;box-shadow:0 7px 0 #dadad7,0 9px 0 #b3b3b0}.object{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;width:75px;height:75px;border:2px solid #555;background:#d2d2cf;box-shadow:3px 3px 0 #a6a6a2;font-size:19px;font-weight:750;border-radius:7px;transform:translate(-50%,-50%);transition:filter .18s}.object small{font-size:10px;font-weight:400;color:#555}.object:hover{filter:brightness(.94)}.object.a{left:27%;top:30%;border-radius:50%}.object.b{left:61%;top:25%;transform:translate(-50%,-50%) rotate(-7deg)}.object.c{left:48%;top:57%;border-radius:12px}.object.d{left:77%;top:68%;border-radius:50% 8px 50% 8px}.object.e{left:22%;top:74%;border-radius:8px 28px 8px 28px}.table-empty{text-align:center;color:#666;font-size:13px;background:#fafaf9d9;padding:12px;border-radius:9px;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:200px}.footerhint{padding:10px 16px;border-top:1px solid #ddd;font-size:12px;color:#686866}.sidebar{display:flex;flex-direction:column;gap:12px}.panel{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px}.panel h3{font-size:13px;margin:0 0 10px}.statuses{display:flex;gap:5px;flex-wrap:wrap}.pill{font-size:11px;border:1px solid #aaa;border-radius:20px;padding:4px 9px;color:#555}.pill.done{background:#454545;color:#fff;border-color:#454545}.scenes{display:grid;gap:9px}.sceneinfo{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid #e3e3e1;padding-top:9px}.sceneinfo:first-child{border-top:0;padding-top:0}.sceneinfo b{font-size:12px}.sceneinfo small{color:#666;font-size:11px}.dot{font-size:11px;border:1px solid #aaa;border-radius:5px;padding:2px 6px;white-space:nowrap}.dot.done{background:#333;color:white}.dot.ready{border-color:#555;background:#f0f0ed;color:#222;font-weight:700}.log{font-size:11px;line-height:1.6;color:#555;max-height:160px;overflow:auto;padding-left:15px;margin:0}.infofoot{font-size:11px;color:#666;margin-top:auto;padding:8px 4px}.narrative{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;gap:17px}.bigform{width:min(180px,52vw);height:150px;border:2px solid #676765;background:#d1d1ce;display:grid;place-items:center;font-size:45px;font-weight:750;box-shadow:9px 9px #e0e0dd}.bigform.round{border-radius:50%}.scenevisual{display:flex;align-items:center;gap:16px;justify-content:center;min-height:150px;flex-wrap:wrap}.mini{width:100px;height:100px;border:2px solid #777;background:#d2d2ce;display:grid;place-items:center;font-weight:800;font-size:25px;border-radius:16px;transition:transform .35s,opacity .35s,margin .35s}.mini.moved{transform:translateX(-18px) scale(.97)}.mini.overlap{margin-left:-40px;opacity:.7}.mini.intervene{transform:translateY(-15px)}.copy{max-width:450px;text-align:center;margin:0}.copy strong{font-size:20px}.copy p{font-size:14px;color:#575757;margin:7px 0 0}.actions{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}.action{padding:10px 16px;background:#333;color:white;border:1px solid #333;border-radius:7px;min-width:125px}.action.secondary{background:white;color:#333}.action.small{min-width:0;padding:6px 10px;font-size:12px}.action:disabled{opacity:.4}.footer{padding:12px 20px;border-top:1px solid var(--line);font-size:11px;color:#6b6b69}.concluded{text-align:center;max-width:450px}.concluded h2{margin:0 0 12px;font-size:23px}.concluded p{font-size:14px;color:#666}.caption{font-size:11px;letter-spacing:.1em;color:#777;text-transform:uppercase}.badge{display:inline-block;background:#e2e2df;padding:5px 10px;border-radius:4px;font-size:12px}.hintbox{width:100%;padding:13px 15px;background:#e9e9e6;border-top:1px solid #c7c7c4}.hintbox p{font-size:12px;margin:0 0 7px;color:#545451}.hintbox strong{font-size:13px}.unlocked-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}.unlockbtn{border:1px solid #777;background:#fff;color:#222;padding:8px 11px;border-radius:7px;font-size:12px;text-align:left}.unlockbtn strong{display:block;font-size:12px}.unlockbtn span{font-size:11px;color:#666}.notice{padding:9px 13px;border:1px dashed #888;border-radius:8px;background:#fff;font-size:12px;max-width:480px;text-align:center;margin:0 auto}.sceneaside{display:grid;justify-items:end;gap:4px}.sidebar-btn{font-size:11px;line-height:1.35;padding:5px 8px;border:1px solid #555;background:#fff;border-radius:5px;color:#222}.completedline{font-size:12px;color:#666;padding:8px 0}.quiet{color:#686866;font-size:12px}.endprompt{padding:11px 16px;background:#dddeda;text-align:center;border-top:1px solid #c3c4c0}.endprompt p{font-size:12px;margin:0 0 8px}.endprompt .action{min-width:170px}.top-summary{font-size:12px;color:#666}.scene-progress{font-size:12px;color:#666}.info-card{max-width:480px;text-align:center;font-size:12px;color:#666;padding:11px 14px;border:1px solid #d4d4d1;border-radius:7px;background:#f2f2ef}
+@media(max-width:740px){.main{grid-template-columns:1fr;padding:10px}.stage{min-height:510px}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sidebar .panel:nth-child(3){grid-column:1/-1}.top{padding:12px 14px}.title{font-size:16px}.table-area{padding:13px 12px}.tabletop{aspect-ratio:1.23}.object{width:62px;height:62px;font-size:16px}.object small{font-size:9px}.stagebar{padding:12px}.footer{padding:10px}.narrative{padding:22px}.mini{height:86px;width:86px}}
+@media(max-width:420px){.topright{gap:6px}.counter{display:none}.sidebar{grid-template-columns:1fr}.sidebar .panel:nth-child(3){grid-column:auto}.object{width:56px;height:56px}.scenevisual{gap:9px}.mini{width:79px;height:80px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div><div class="title">天涯若比邻 <span class="version">/ GRAYBOX 0.2</span></div><div class="version">测试主动进入关系剧场 · 物件与剧场组合均为占位</div></div>
+    <div class="topright"><span class="counter" id="topCount">0 / 5 已收走</span><button class="plain" id="reset" type="button">↻ 重置</button></div>
+  </header>
+  <div class="main">
+    <main class="stage" id="stage" aria-label="交互原型主区域"></main>
+    <aside class="sidebar" aria-label="原型状态与日志">
+      <section class="panel"><h3>物件状态</h3><div class="statuses" id="itemStatuses"></div></section>
+      <section class="panel"><h3>关系剧场 · 主动进入</h3><div class="scenes" id="sceneStatuses"></div></section>
+      <section class="panel"><h3>状态记录</h3><ol class="log" id="history"></ol></section>
+      <div class="infofoot">测试组合：A+B → 剧场①；C+D → 剧场②；A+C+E → 剧场③。<strong>组合尚未确定。</strong> 解锁后不会自动播放。</div>
+    </aside>
+  </div>
+  <footer class="footer">灰盒范围：五个物件、关键动作后收走、最多一处条件文字变化、两场双物件剧场及一场三物件剧场。交互动作是占位演示，不等于正式动画或剧情。</footer>
+</div>
+<script>
+(()=>{
+'use strict';
+const ITEMS=['A','B','C','D','E'];
+const REL=[
+ {id:'r1',name:'剧场①｜双物件',needs:['A','B'],steps:['让两个物件靠近','确认它们的距离'],description:'距离变化只是交互示意'},
+ {id:'r2',name:'剧场②｜双物件',needs:['C','D'],steps:['让两个物件重合'],description:'叠合只是交互示意'},
+ {id:'r3',name:'剧场③｜三物件',needs:['A','C','E'],steps:['让第三个物件介入','确认三者关系变化'],description:'第三者介入只是交互示意'}
+];
+const el=id=>document.getElementById(id);
+const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S;
+function unlocked(r){return r.needs.every(o=>S.taken.includes(o));}
+function available(r){return unlocked(r)&&!S.played.includes(r.id);}
+function pending(){return REL.filter(available);}
+function canEnd(){return S.taken.length===ITEMS.length&&S.played.length===REL.length;}
+function log(x){S.logs.push(x);}
+function init(){S={taken:[],played:[],view:'table',activeItem:null,touched:false,sceneId:null,sceneStep:0,variationItem:null,newUnlocks:[],logs:['进入 Kopitiam 桌面。']};render();}
+function enterTable(){S.view='table';S.activeItem=null;S.sceneId=null;S.sceneStep=0;S.touched=false;render();}
+function take(){
+ if(S.view!=='item'||!S.touched||!S.activeItem)return;
+ const item=S.activeItem, previous=REL.filter(unlocked).map(r=>r.id), n=S.taken.length;
+ S.taken.push(item);log('收走物件 '+item+'（第 '+S.taken.length+' 个）');
+ const newly=REL.filter(r=>unlocked(r)&&!previous.includes(r.id));
+ S.newUnlocks=newly.map(r=>r.id);
+ newly.forEach(r=>log('已解锁 '+r.name+'（'+r.needs.join('+')+'）；等待观众选择进入'));
+ S.variationItem=n>=2?item:null;S.activeItem=null;S.touched=false;
+ if(S.variationItem){S.view='variation';log('物件 '+item+' 出现一次条件文字变化（测试规则）');render();}
+ else enterTable();
+}
+function enterScene(id){
+ const r=REL.find(x=>x.id===id);
+ if(S.view!=='table'||!r||!available(r))return;
+ S.sceneId=id;S.sceneStep=0;S.newUnlocks=[];S.view='scene';log('观众主动进入 '+r.name);render();
+}
+function exitScene(){
+ if(S.view!=='scene')return;
+ const r=REL.find(x=>x.id===S.sceneId);
+ log('暂时退出 '+r.name+'；本场尚未完成，可再次进入');enterTable();
+}
+function advanceScene(){
+ if(S.view!=='scene')return;
+ const r=REL.find(x=>x.id===S.sceneId);
+ if(S.sceneStep<r.steps.length){S.sceneStep++;log(r.name+'：完成动作 '+S.sceneStep+'/'+r.steps.length);render();return;}
+ if(!S.played.includes(r.id))S.played.push(r.id);
+ log(r.name+' 完成；返回桌面');enterTable();
+}
+function stagebar(l,r){return '<div class="stagebar"><span class="eyebrow">'+l+'</span><span class="note">'+r+'</span></div>';}
+function tableHTML(){
+ const remain=ITEMS.filter(o=>!S.taken.includes(o));
+ const availableScenes=pending();
+ const notice=S.newUnlocks.length?'<div class="notice" role="status">新解锁：'+S.newUnlocks.map(id=>escape(REL.find(r=>r.id===id).name)).join('、')+'。现在可选择进入，也可以继续探索桌面。</div>':'';
+ const buttons=availableScenes.map(r=>'<button class="unlockbtn" type="button" data-scene="'+r.id+'"><strong>进入 '+r.name+' →</strong><span>组合 '+r.needs.join(' + ')+' · 点击后才开始</span></button>').join('');
+ const summary=availableScenes.length?'<div class="hintbox"><strong>可进入的关系剧场 · '+availableScenes.length+' 场</strong><p>它们已解锁，但不会自动播放；继续收走物件也不会让它们消失。</p><div class="unlocked-list">'+buttons+'</div></div>':'<div class="hintbox"><strong>'+((S.played.length===REL.length)?'关系剧场均已完成':'目前没有待进入的关系剧场')+'</strong><p>'+(S.played.length===REL.length?'可以继续检查桌面或结束体验。':'当相应物件都被收走后，剧场才会出现在这里和右侧面板。')+'</p></div>';
+ return stagebar('L0 / KOPITIAM 桌面',`${S.taken.length} / 5 已收走 · ${S.played.length} / 3 剧场已完成`)+
+ (notice?'<div style="padding:12px 15px 0">'+notice+'</div>':'')+
+ '<div class="table-area"><div class="tabletop" aria-label="五件物件的桌面">'+
+ remain.map(o=>'<button type="button" class="object '+o.toLowerCase()+'" data-open="'+o+'" aria-label="打开物件 '+o+'">'+o+'<small>物件占位</small></button>').join('')+
+ (remain.length?'':'<div class="table-empty">桌面已空<br>仍可主动进入未完成的剧场</div>')+'</div></div>'+summary+
+ (canEnd()?'<div class="endprompt"><p>5 件物件和 3 场关系剧场均已完成。结束也是观众的选择。</p><button class="action" data-act="ending">结束体验 →</button></div>':'')+
+ '<div class="footerhint">先完成物件动作才能收走；关系剧场可随时从“已解锁”列表主动进入。组合仅供测试。</div>';
+}
+function itemHTML(){
+ const o=S.activeItem;
+ return stagebar('L1 / 单物件交互','物件 '+o+' · '+(S.touched?'已完成关键动作':'关键动作尚未完成'))+
+ '<div class="narrative"><div class="caption">OBJECT '+o+'</div><div class="bigform '+(o==='A'?'round':'')+'">'+o+'</div><div class="copy"><strong>'+(S.touched?'关键动作已经发生':'一段固定的物件故事')+'</strong><p>'+(S.touched?'这里以后替换成实际画面、动作和台词。现在可以收走，也可以返回桌面。':'点击一次触发预设反馈。未完成关键动作，无法收走。')+'</p></div><div class="actions"><button class="action secondary" data-act="back">← 返回桌面</button>'+(S.touched?'<button class="action" data-act="take">收走这个物件 →</button>':'<button class="action" data-act="touch">点击物件 · 触发动作</button>')+'</div></div>';
+}
+function variationHTML(){
+ return stagebar('L1b / 条件变化','仅作逻辑测试')+'<div class="narrative"><div class="badge">物件 '+S.variationItem+' 出现一次条件变化</div><div class="copy"><strong>多出现了一小段内容</strong><p>当前测试规则：在这个物件之前，已经收走至少 2 件物件，就插入一行不同的文字。正式版每件物件可以有不同的触发条件，不需要额外一整段动画。</p></div><div class="info-card">如果刚刚解锁了关系剧场，它会显示在桌面上。<strong>是否进入由观众决定</strong>，不会插队自动播放。</div><button class="action" data-act="continue">返回桌面 →</button></div>';
+}
+function sceneHTML(){
+ const r=REL.find(x=>x.id===S.sceneId),done=S.sceneStep>=r.steps.length,step=S.sceneStep;
+ const blocks=r.needs.map((o,i)=>'<div class="mini '+(r.id==='r1'&&step>0&&i===1?'moved ':'')+(r.id==='r2'&&step>0&&i===1?'overlap ':'')+(r.id==='r3'&&step>0&&i===2?'intervene':'')+'">'+o+'</div>').join('');
+ return stagebar('L2 / 主动进入的关系剧场',r.name+' · '+r.needs.join(' + '))+
+ '<div class="narrative"><div class="caption">RELATION SCENE · '+escape(r.id.toUpperCase())+'</div><div class="scene-progress">'+(done?'互动完成，等待观众结束':'交互 '+(step+1)+' / '+r.steps.length)+'</div><div class="scenevisual">'+blocks+'</div><div class="copy"><strong>'+(done?'这场关系剧场已经完成':escape(r.steps[step]))+'</strong><p>'+(done?'点击完成后返回桌面，该剧场才会记为「已完成」。':escape(r.description)+'。实际手势、分镜及叙事尚未设计。')+'</p></div><div class="actions"><button class="action secondary" data-act="exitScene">← 暂时退出</button><button class="action" data-act="sceneStep">'+(done?'完成剧场 · 返回桌面 →':'模拟完成此动作 →')+'</button></div><div class="info-card">退出未完成的剧场不会清除解锁资格；下次进入从本场第一个动作开始。</div></div>';
+}
+function endHTML(){
+ return stagebar('L3 / 结束','完成全部 5 个物件与 3 场关系剧场')+'<div class="narrative concluded"><div class="caption">END OF GRAYBOX</div><h2>这次探索结束</h2><p>收走顺序：<b>'+S.taken.join(' → ')+'</b></p><p>三场剧场均由观众主动进入并完成。现在可以重新开始测试其他收走顺序。</p><div class="actions"><button class="action secondary" data-act="backFromEnd">← 回到桌面</button><button class="action" data-act="reset">重新体验 ↻</button></div></div>';
+}
+function render(){
+ el('topCount').textContent=S.taken.length+' / 5 已收走';
+ el('itemStatuses').innerHTML=ITEMS.map(o=>'<span class="pill '+(S.taken.includes(o)?'done':'')+'">'+o+' · '+(S.taken.includes(o)?'已收走':'未收走')+'</span>').join('');
+ el('sceneStatuses').innerHTML=REL.map(r=>{
+  const isPlayed=S.played.includes(r.id),ready=available(r),inScene=S.view==='scene'&&S.sceneId===r.id;
+  const status=isPlayed?'已完成':inScene?'进行中':ready?'已解锁':'未解锁';
+  return '<div class="sceneinfo"><div><b>'+r.name+'</b><br><small>'+r.needs.join(' + ')+'</small></div><div class="sceneaside"><span class="dot '+(isPlayed?'done':ready?'ready':'')+'">'+status+'</span>'+(ready&&S.view==='table'?'<button class="sidebar-btn" type="button" data-scene="'+r.id+'">主动进入 →</button>':'')+'</div></div>';
+ }).join('');
+ el('history').innerHTML=S.logs.map(x=>'<li>'+escape(x)+'</li>').join('');
+ const pages={table:tableHTML,item:itemHTML,variation:variationHTML,scene:sceneHTML,end:endHTML};
+ el('stage').innerHTML=pages[S.view]();
+}
+function action(act){
+ if(act==='reset'){init();return;}
+ if(act==='back'){enterTable();return;}
+ if(act==='touch'&&S.view==='item'){S.touched=true;log('物件 '+S.activeItem+' 完成关键动作');render();return;}
+ if(act==='take'){take();return;}
+ if(act==='continue'&&S.view==='variation'){enterTable();return;}
+ if(act==='exitScene'){exitScene();return;}
+ if(act==='sceneStep'){advanceScene();return;}
+ if(act==='ending'&&S.view==='table'&&canEnd()){S.view='end';log('观众选择结束体验');render();return;}
+ if(act==='backFromEnd'&&S.view==='end'){enterTable();return;}
+}
+el('app').addEventListener('click',event=>{
+ const btn=event.target.closest('button');if(!btn||btn.id==='reset')return;
+ if(btn.dataset.open&&S.view==='table'&&!S.taken.includes(btn.dataset.open)){
+  S.activeItem=btn.dataset.open;S.touched=false;S.newUnlocks=[];S.view='item';log('点击物件 '+S.activeItem);render();return;
+ }
+ if(btn.dataset.scene){enterScene(btn.dataset.scene);return;}
+ if(btn.dataset.act)action(btn.dataset.act);
+});
+el('reset').addEventListener('click',()=>{if(window.confirm('重置灰盒？已收走物件和已完成剧场都会清空。'))init();});
+init();
+})();
+</script>
+</body>
+</html>
